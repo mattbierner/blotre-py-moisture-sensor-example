@@ -87,6 +87,7 @@ while True:
     sample = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
     print sample
     
+    
     if abs(last_read - sample) > tolerance:
         percent = float(min(reading, MOISTURE_SENSOR_MAX) / max(reading, MOISTURE_SENSOR_MIN)) / MOISTURE_SENSOR_MAX
         print percent
