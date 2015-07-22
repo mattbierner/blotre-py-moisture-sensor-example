@@ -7,7 +7,7 @@ I used [these supplies and instructions][hardware-tut] to hookup a very basic so
 
 By default the script reads data from pin 0 on the MCP3008.
 
-# Script
+# Software
 
 ### Dependencies
 * [Blot're.py][blotre-py]
@@ -15,8 +15,8 @@ By default the script reads data from pin 0 on the MCP3008.
 * rpi.gpio
 
 ```
-pip install spectra blotre 
-easy_install rpi.gpio
+$ pip install spectra blotre 
+$ easy_install rpi.gpio
 ```
 
 ### Running
@@ -27,7 +27,7 @@ $ sudo python main.py
 ```
 
 ### Adjusting
-You can adjust a few constants to customize the script.
+You can adjust a few constants to customize the script's behavior.
 
 * `TARGET_STREAM_NAME` - Name of top level stream uploaded to. This stream will be created under the root stream of the user who authorizes the app. Defaults to `"Mr Tree"`.
 * `MOISTURE_SENSOR_MAX` - Maximum (most wet) value of moisture sensor. Only used to determine the health color of the plant. For best results, take reading immediately after watering the plant in question.
@@ -35,6 +35,19 @@ You can adjust a few constants to customize the script.
 * `MOISTURE_SCALE` - You can adjust the colors in the scale (from dry to wet) if you like.
 * `INTERVAL` - How often (in seconds) to try reading a from the moisture sensor. Defaults to every 5 minutes.
 
+### Starting Script At Boot
+`plantre.init.d.sh` is a sample init.d script that you can use to start `main.py` on boot. To use it:
+
+* In `plantre.init.d.sh`, update `DIR` to point to where your copy of `main.py` lives.
+* Copy `plantre.init.d.sh` into `/etc/init`
+* Make sure both `main.py` and `plantre.init.d.sh` are executable: `chmod 755 main.py`, `chmod 755 /etc/init.d/plantre.init.d.sh`
+* Run `sudo update-rc.d plantre.init.d.sh defaults` to register script to be run at init.
+
+Start or stop the script by running:
+
+```
+$ sudo /etc/init.d/plantre.init.d.sh start
+```
 
 
 [blotre]: https://blot.re
