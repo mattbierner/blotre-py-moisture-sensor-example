@@ -24,7 +24,6 @@ MOISTURE_SCALE = spectra.scale(["#654d00", "green"]).domain([MOISTURE_SENSOR_MIN
 # How often should the sensor be checked? (in seconds)
 INTERVAL = 60 * 5
 
-
 GPIO.setmode(GPIO.BCM)
 
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)                                                                                                 
@@ -74,13 +73,10 @@ def update_plant_status(client, rootStream, status):
         }
     })
 
-
 def clamp(minVal, maxVal, val):
     return min(maxVal, max(minVal, val))
 
-
-
-# set up the SPI interface pins                                                                                                                               
+# set up the SPI interface pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
 GPIO.setup(SPIMISO, GPIO.IN)
 GPIO.setup(SPICLK, GPIO.OUT)
@@ -105,6 +101,7 @@ client = blotre.create_disposable_app({
     'name': "Plant're",
     'blurb': "Blot're you a plant."
 })
+
 rootStream = get_root_stream(client)
 
 # Start polling
@@ -120,6 +117,3 @@ while True:
             MOISTURE_SCALE(clamp(MOISTURE_SENSOR_MIN, MOISTURE_SENSOR_MAX, sample)).hexcode)
         last_read = sample
     time.sleep(INTERVAL)
-
-
-
